@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -21,12 +21,15 @@ using VRC.Udon;
 using VRC.Udon.Common.Interfaces;
 using static UnhollowerRuntimeLib.ClassInjector;
 
-[assembly: MelonInfo(typeof(UdonUtils.Starter), nameof(UdonUtils), "1.0.0")]
+[assembly: MelonInfo(typeof(UdonUtils.Starter), nameof(UdonUtils), "1.0.0", "HookedBehemoth")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
-namespace UdonUtils {
-    public class Starter : MelonMod {
-        public override void OnApplicationStart() {
+namespace UdonUtils
+{
+    public class Starter : MelonMod
+    {
+        public override void OnInitializeMelon()
+        {
             RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonProgram>(true, typeof(IUdonProgram));
             RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonVM>(true, typeof(IUdonVM));
             RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonHeap>(true, typeof(IUdonHeap));
@@ -37,7 +40,8 @@ namespace UdonUtils {
                 postfix: new HarmonyLib.HarmonyMethod(typeof(Starter).GetMethod(nameof(OnUdonBehaviourLoaded), BindingFlags.NonPublic | BindingFlags.Static)));
         }
 
-        public override void OnSceneWasUnloaded(int buildIndex, string sceneName) {
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+        {
             if (buildIndex == -1)
                 FakeUdon.Injector.ClearBehaviours();
         }

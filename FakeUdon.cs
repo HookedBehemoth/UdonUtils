@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -26,9 +26,12 @@ using VRC.Udon;
 using VRC.Udon.Common;
 using VRC.Udon.Common.Interfaces;
 
-namespace FakeUdon {
-    static class Injector {
-        private static bool InitializeUdonContentInjected(UdonBehaviour __instance) {
+namespace FakeUdon
+{
+    static class Injector
+    {
+        private static bool InitializeUdonContentInjected(UdonBehaviour __instance)
+        {
             /* Early abort */
             if (__instance._initialized)
                 return false;
@@ -48,7 +51,8 @@ namespace FakeUdon {
 
             var symbolTable = new UdonSymbolTable(heap.Symbols.ToIl2CppList(), heap.SymbolNames.ToIl2CppList().Cast<Il2CppSystem.Collections.Generic.IEnumerable<string>>());
 
-            string FilterName(string name) {
+            string FilterName(string name)
+            {
                 if (!EventTable.TryGetValue(name, out string replacement))
                     return name;
                 return replacement;
@@ -69,7 +73,8 @@ namespace FakeUdon {
                                             .Select(f => (f.Name, f.GetCustomAttribute<UdonSharp.UdonSyncedAttribute>().networkSyncType));
 
             var syncMetadataList = new Il2CppSystem.Collections.Generic.List<IUdonSyncMetadata>();
-            foreach (var field in syncFields) {
+            foreach (var field in syncFields)
+            {
                 var syncProperties = new Il2CppSystem.Collections.Generic.List<IUdonSyncProperty>(1);
                 syncProperties.Add(new UdonSyncProperty("this", field.networkSyncType).Cast<IUdonSyncProperty>());
                 syncMetadataList.Add(new UdonSyncMetadata(field.Name, syncProperties).Cast<IUdonSyncMetadata>());
@@ -77,7 +82,8 @@ namespace FakeUdon {
 
             var syncMetadataTable = new UdonSyncMetadataTable(syncMetadataList.Cast<Il2CppSystem.Collections.Generic.IEnumerable<IUdonSyncMetadata>>());
 
-            var program = new FakeUdonProgram {
+            var program = new FakeUdonProgram
+            {
                 SyncMetadataTable = syncMetadataTable.Cast<IUdonSyncMetadataTable>(),
                 Heap = new IUdonHeap(heap.Pointer),
                 EntryPoints = entries.Cast<IUdonSymbolTable>(),
@@ -92,7 +98,8 @@ namespace FakeUdon {
             __instance._program = new IUdonProgram(program.Pointer);
 
             var variableTable = __instance.publicVariables.Cast<UdonVariableTable>();
-            foreach (var variableSymbol in variableTable._publicVariables.keys) {
+            foreach (var variableSymbol in variableTable._publicVariables.keys)
+            {
                 if (!symbolTable.HasAddressForSymbol(variableSymbol))
                 {
                     continue;
@@ -123,7 +130,7 @@ namespace FakeUdon {
             __instance._udonManager.ProcessUdonProgram(__instance._program);
 
             __instance.ResolveUdonHeapReferences(program.SymbolTable, program.Heap);
-            var vm =  new FakeUdonVM();
+            var vm = new FakeUdonVM();
 
             /* Prevent vm from being garbage collected */
             Objects.Add(vm);
@@ -140,8 +147,10 @@ namespace FakeUdon {
 
         private readonly static Dictionary<int, UdonSharp.UdonSharpBehaviour> ActiveBehaviours = new();
         private readonly static Il2CppSystem.Collections.Generic.List<Il2CppSystem.Object> Objects = new();
-        public static UdonSharp.UdonSharpBehaviour GetOrCreateBehaviour(UdonBehaviour node, System.Type type) {
-            if (!ActiveBehaviours.TryGetValue(node.GetInstanceID(), out var behaviour)) {
+        public static UdonSharp.UdonSharpBehaviour GetOrCreateBehaviour(UdonBehaviour node, System.Type type)
+        {
+            if (!ActiveBehaviours.TryGetValue(node.GetInstanceID(), out var behaviour))
+            {
                 behaviour = (UdonSharp.UdonSharpBehaviour)System.Activator.CreateInstance(type);
                 behaviour.Initialize(node, type);
                 ActiveBehaviours.Add(node.GetInstanceID(), behaviour);
@@ -149,23 +158,31 @@ namespace FakeUdon {
             return behaviour;
         }
 
-        public static void ClearBehaviours() {
+        public static void ClearBehaviours()
+        {
             ActiveBehaviours.Clear();
             Objects.Clear();
         }
 
-        public static Il2CppSystem.Type FromFieldType(Type type) {
-            if (type.IsArray) {
+        public static Il2CppSystem.Type FromFieldType(Type type)
+        {
+            if (type.IsArray)
+            {
                 var baseType = type.GetElementType();
                 return UnhollowerRuntimeLib.Il2CppType.From((baseType.IsValueType ? typeof(Il2CppStructArray<>) : typeof(Il2CppReferenceArray<>)).MakeGenericType(baseType));
-            } else if (type.BaseType == typeof(UdonSharp.UdonSharpBehaviour)) {
+            }
+            else if (type.BaseType == typeof(UdonSharp.UdonSharpBehaviour))
+            {
                 return UnhollowerRuntimeLib.Il2CppType.Of<UdonBehaviour>();
-            } else {
+            }
+            else
+            {
                 return UnhollowerRuntimeLib.Il2CppType.From(type);
             }
         }
 
-        private static readonly Dictionary<string, string> EventTable = new Dictionary<string, string> {
+        private static readonly Dictionary<string, string> EventTable = new Dictionary<string, string>
+        {
             ["Custom"] = "_custom",
             ["OnDataStorageAdded"] = "_onDataStorageAdded",
             ["OnDataStorageChanged"] = "_onDataStorageChanged",

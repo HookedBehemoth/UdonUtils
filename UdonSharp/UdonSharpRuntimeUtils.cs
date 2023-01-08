@@ -2,8 +2,10 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UdonSharp {
-    namespace Internal {
+namespace UdonSharp
+{
+    namespace Internal
+    {
         public static class UdonSharpInternalUtility
         {
             public static long GetTypeID(System.Type type)

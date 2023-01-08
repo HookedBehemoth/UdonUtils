@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -19,9 +19,11 @@ using VRC.Udon.Common.Interfaces;
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 
-namespace FakeUdon {
-    public class FakeUdonProgram : Il2CppSystem.Object /*, IUdonProgram */ {
-        public FakeUdonProgram(System.IntPtr handle) : base(handle) {}
+namespace FakeUdon
+{
+    public class FakeUdonProgram : Il2CppSystem.Object /*, IUdonProgram */
+    {
+        public FakeUdonProgram(System.IntPtr handle) : base(handle) { }
         public FakeUdonProgram() : base(ClassInjector.DerivedConstructorPointer<FakeUdonProgram>()) => ClassInjector.DerivedConstructorBody(this);
 
         public string InstructionSetIdentifier => "FakeUdonProgram";

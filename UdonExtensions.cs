@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -19,8 +19,10 @@ using VRC.Udon;
 using System;
 using System.Linq;
 
-public static class UdonExtensions {
-    private static Il2CppSystem.Object GetValue(this UdonBehaviour _this, string name) {
+public static class UdonExtensions
+{
+    private static Il2CppSystem.Object GetValue(this UdonBehaviour _this, string name)
+    {
         var program = _this._program;
 
         var address = program.SymbolTable.GetAddressFromSymbol(name);
@@ -29,7 +31,8 @@ public static class UdonExtensions {
         return value;
     }
 
-    private static void SetValue(this UdonBehaviour _this, string name, Il2CppSystem.Object value) {
+    private static void SetValue(this UdonBehaviour _this, string name, Il2CppSystem.Object value)
+    {
         var program = _this._program;
 
         var address = program.SymbolTable.GetAddressFromSymbol(name);
@@ -38,35 +41,42 @@ public static class UdonExtensions {
         program.Heap.SetHeapVariable(address, value, type);
     }
 
-    public static T GetObject<T>(this UdonBehaviour _this, string name) where T : Il2CppSystem.Object {
+    public static T GetObject<T>(this UdonBehaviour _this, string name) where T : Il2CppSystem.Object
+    {
         return _this.GetValue(name).Cast<T>();
     }
 
-    public static T GetPrimitive<T>(this UdonBehaviour _this, string name) where T : unmanaged {
+    public static T GetPrimitive<T>(this UdonBehaviour _this, string name) where T : unmanaged
+    {
         return _this.GetValue(name).Unbox<T>();
     }
 
-    public unsafe static void SetPrimitive<T>(this UdonBehaviour _this, string name, T value) where T : unmanaged {
+    public unsafe static void SetPrimitive<T>(this UdonBehaviour _this, string name, T value) where T : unmanaged
+    {
         var ptr = IL2CPP.il2cpp_value_box(Il2CppClassPointerStore<T>.NativeClassPtr, (IntPtr)(&value));
         var v = new Il2CppSystem.Object(ptr);
         _this.SetValue(name, v);
     }
 
-    public static T[] GetArray<T>(this UdonBehaviour _this, string name) where T : unmanaged {
+    public static T[] GetArray<T>(this UdonBehaviour _this, string name) where T : unmanaged
+    {
         return _this.GetValue(name).Cast<Il2CppStructArray<T>>();
     }
 
-    public static void SetArray<T>(this UdonBehaviour _this, string name, T[] t) where T : unmanaged {
+    public static void SetArray<T>(this UdonBehaviour _this, string name, T[] t) where T : unmanaged
+    {
         var value = (Il2CppStructArray<T>)t;
 
         _this.SetValue(name, value.Cast<Il2CppSystem.Object>());
     }
 
-    public static T[][] Get2DArray<T>(this UdonBehaviour _this, string name) where T : unmanaged {
+    public static T[][] Get2DArray<T>(this UdonBehaviour _this, string name) where T : unmanaged
+    {
         var array = _this.GetValue(name).Cast<Il2CppReferenceArray<Il2CppSystem.Object>>();
         var result = new T[array.Length][];
 
-        foreach (var s in Enumerable.Range(0, array.Length)) {
+        foreach (var s in Enumerable.Range(0, array.Length))
+        {
             var k = array[s].Cast<Il2CppStructArray<T>>();
             result[s] = new T[k.Length];
             k.CopyTo(result[s], 0);
@@ -75,22 +85,27 @@ public static class UdonExtensions {
         return result;
     }
 
-    public static void Set2DArray<T>(this UdonBehaviour _this, string name, T[][] t) where T : unmanaged {
+    public static void Set2DArray<T>(this UdonBehaviour _this, string name, T[][] t) where T : unmanaged
+    {
         var result = new Il2CppReferenceArray<Il2CppSystem.Object>(t.Length);
-        foreach (var s in Enumerable.Range(0, t.Length)) {
+        foreach (var s in Enumerable.Range(0, t.Length))
+        {
             result[s] = ((Il2CppStructArray<T>)t[s]).Cast<Il2CppSystem.Object>();
         }
         _this.SetValue(name, result.Cast<Il2CppSystem.Object>());
     }
 
-    public static T[][][] Get3DArray<T>(this UdonBehaviour _this, string name) where T : unmanaged {
+    public static T[][][] Get3DArray<T>(this UdonBehaviour _this, string name) where T : unmanaged
+    {
         var array = _this.GetValue(name).Cast<Il2CppReferenceArray<Il2CppSystem.Object>>();
         var result = new T[array.Length][][];
 
-        foreach (var s in Enumerable.Range(0, array.Length)) {
+        foreach (var s in Enumerable.Range(0, array.Length))
+        {
             var k = array[s].Cast<Il2CppReferenceArray<Il2CppSystem.Object>>();
             result[s] = new T[k.Length][];
-            foreach (var t in Enumerable.Range(0, k.Length)) {
+            foreach (var t in Enumerable.Range(0, k.Length))
+            {
                 var l = k[t].Cast<Il2CppStructArray<T>>();
                 result[s][t] = new T[l.Length];
                 l.CopyTo(result[s][t], 0);

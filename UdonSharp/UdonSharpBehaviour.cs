@@ -3,14 +3,17 @@ using VRC.Udon;
 using VRC.Udon.Common.Interfaces;
 using static UdonSharp.Internal.UdonSharpInternalUtility;
 
-namespace UdonSharp {
-    public class UdonSharpBehaviour {
+namespace UdonSharp
+{
+    public class UdonSharpBehaviour
+    {
         public long __refl_const_intnl_udonTypeID;
         public string __refl_const_intnl_udonTypeName;
         public Transform transform;
         public GameObject gameObject;
         public UdonBehaviour behaviour;
-        public void Initialize(UdonBehaviour _behaviour, System.Type type) {
+        public void Initialize(UdonBehaviour _behaviour, System.Type type)
+        {
             gameObject = _behaviour.gameObject;
             transform = _behaviour.transform;
             behaviour = _behaviour;
@@ -78,7 +81,7 @@ namespace UdonSharp {
         public virtual void OnPlayerCollisionStay(VRC.SDKBase.VRCPlayerApi player) { }
         public virtual void OnPlayerParticleCollision(VRC.SDKBase.VRCPlayerApi player) { }
         public virtual void OnPlayerRespawn(VRC.SDKBase.VRCPlayerApi player) { }
-        
+
         public virtual void OnPostSerialization(VRC.Udon.Common.SerializationResult result) { }
         public virtual bool OnOwnershipRequest(VRC.SDKBase.VRCPlayerApi requestingPlayer, VRC.SDKBase.VRCPlayerApi requestedOwner) => true;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -18,36 +18,44 @@ using Il2CppSystem.Collections.Generic;
 using VRC.Udon.Common.Interfaces;
 using UnhollowerRuntimeLib;
 
-namespace FakeUdon {
-    public class FakeUdonVM : Il2CppSystem.Object /*, IUdonVM */ {
-        public FakeUdonVM(System.IntPtr handle) : base(handle) {}
+namespace FakeUdon
+{
+    public class FakeUdonVM : Il2CppSystem.Object /*, IUdonVM */
+    {
+        public FakeUdonVM(System.IntPtr handle) : base(handle) { }
         public FakeUdonVM() : base(ClassInjector.DerivedConstructorPointer<FakeUdonVM>()) => ClassInjector.DerivedConstructorBody(this);
 
         private FakeUdonProgram _program;
         private uint _pc;
         public bool DebugLogging { get; set; }
-        public uint GetProgramCounter() {
+        public uint GetProgramCounter()
+        {
             return _pc;
         }
-        public Stack<uint> GetStack() {
+        public Stack<uint> GetStack()
+        {
             return new Stack<uint>();
         }
         public IUdonHeap InspectHeap()
             => _program.Heap;
 
-        public uint Interpret() {
+        public uint Interpret()
+        {
             _program._methods[_pc].Invoke(_program._obj, null);
             _pc = 0;
             return 0;
         }
-        public bool LoadProgram(IUdonProgram program) {
+        public bool LoadProgram(IUdonProgram program)
+        {
             _program = program.Cast<FakeUdonProgram>();
             return true;
         }
-        public IUdonProgram RetrieveProgram() {
+        public IUdonProgram RetrieveProgram()
+        {
             return _program.Cast<IUdonProgram>();
         }
-        public void SetProgramCounter(uint value) {
+        public void SetProgramCounter(uint value)
+        {
             _pc = value;
         }
     }

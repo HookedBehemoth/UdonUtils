@@ -35,7 +35,7 @@ namespace UdonSharp
             networkSyncType = networkSyncTypeIn;
         }
     }
-    
+
     /// <summary>
     /// Used to enforce consistent sync modes per behaviour since Udon Behaviours are usually authored with a specific type of sync in mind
     ///   and it's tedious to set and make sure the sync type is correct on each behaviour.

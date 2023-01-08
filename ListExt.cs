@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 HookedBehemoth
+ * Copyright (c) 2023 HookedBehemoth
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -14,10 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-static class ListExtension {
-    public static Il2CppSystem.Collections.Generic.List<T> ToIl2CppList<T>(this System.Collections.Generic.List<T> list) {
+static class ListExtension
+{
+    public static Il2CppSystem.Collections.Generic.List<T> ToIl2CppList<T>(this System.Collections.Generic.List<T> list)
+    {
         var ret = new Il2CppSystem.Collections.Generic.List<T>(list.Count);
-        for (int i = 0; i < list.Count; i++) {
+        for (int i = 0; i < list.Count; i++)
+        {
             ret.Add(list[i]);
         }
         return ret;
