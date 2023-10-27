@@ -15,9 +15,9 @@
  */
 
 using System.Reflection;
-using VRC.Udon.Common.Interfaces;
-using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
+using Il2CppVRC.Udon.Common.Interfaces;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppInterop.Runtime.Injection;
 
 namespace FakeUdon
 {

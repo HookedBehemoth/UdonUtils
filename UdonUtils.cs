@@ -17,9 +17,9 @@
 using MelonLoader;
 using System;
 using System.Reflection;
-using VRC.Udon;
-using VRC.Udon.Common.Interfaces;
-using static UnhollowerRuntimeLib.ClassInjector;
+using Il2CppVRC.Udon;
+using Il2CppInterop.Runtime.Injection;
+using Il2CppVRC.Udon.Common.Interfaces;
 
 [assembly: MelonInfo(typeof(UdonUtils.Starter), nameof(UdonUtils), "1.0.0", "HookedBehemoth")]
 [assembly: MelonGame("VRChat", "VRChat")]
@@ -30,12 +30,12 @@ namespace UdonUtils
     {
         public override void OnInitializeMelon()
         {
-            RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonProgram>(true, typeof(IUdonProgram));
-            RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonVM>(true, typeof(IUdonVM));
-            RegisterTypeInIl2CppWithInterfaces<FakeUdon.FakeUdonHeap>(true, typeof(IUdonHeap));
+            ClassInjector.RegisterTypeInIl2Cpp<FakeUdon.FakeUdonProgram>(new RegisterTypeOptions { Interfaces = new[] { typeof(IUdonProgram) } });
+            ClassInjector.RegisterTypeInIl2Cpp<FakeUdon.FakeUdonVM>(new RegisterTypeOptions { Interfaces = new[] { typeof(IUdonVM) } });
+            ClassInjector.RegisterTypeInIl2Cpp<FakeUdon.FakeUdonHeap>(new RegisterTypeOptions { Interfaces = new[] { typeof(IUdonHeap) } });
 
             HarmonyInstance.Patch(
-                typeof(VRC.Udon.UdonBehaviour).GetMethod("InitializeUdonContent", BindingFlags.Public | BindingFlags.Instance),
+                typeof(UdonBehaviour).GetMethod("InitializeUdonContent", BindingFlags.Public | BindingFlags.Instance),
                 prefix: new HarmonyLib.HarmonyMethod(typeof(FakeUdon.Injector).GetMethod("InitializeUdonContentInjected", BindingFlags.NonPublic | BindingFlags.Static)),
                 postfix: new HarmonyLib.HarmonyMethod(typeof(Starter).GetMethod(nameof(OnUdonBehaviourLoaded), BindingFlags.NonPublic | BindingFlags.Static)));
         }

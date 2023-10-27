@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using VRC.Udon;
+using Il2CppVRC.Udon;
 using System;
 using System.Collections.Generic;
 

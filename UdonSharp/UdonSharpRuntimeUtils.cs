@@ -10,7 +10,7 @@ namespace UdonSharp
         {
             public static long GetTypeID(System.Type type)
             {
-                SHA256 typeHash = new SHA256CryptoServiceProvider();
+                using var typeHash = SHA256.Create();
                 byte[] hash = typeHash.ComputeHash(Encoding.UTF8.GetBytes(type.FullName));
                 return BitConverter.ToInt64(hash, 0);
             }

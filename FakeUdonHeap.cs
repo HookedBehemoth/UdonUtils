@@ -19,12 +19,15 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using VRC.Udon.Common;
-using VRC.Udon.Common.Interfaces;
-using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
+using Il2CppVRC.Udon.Common;
+using Il2CppVRC.Udon.Common.Interfaces;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppVRC.Udon;
+using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.Injection;
 using MelonLoader;
-using VRC.Udon;
+using HarmonyLib;
 
 namespace FakeUdon
 {
@@ -32,8 +35,8 @@ namespace FakeUdon
     {
         public FakeUdonHeap(System.IntPtr handle) : base(handle) { }
 
-        object _obj;
-        FieldInfo[] _fields;
+        readonly object _obj;
+        readonly FieldInfo[] _fields;
         public List<IUdonSymbol> Symbols;
         public List<string> SymbolNames;
 
@@ -42,7 +45,7 @@ namespace FakeUdon
             ClassInjector.DerivedConstructorBody(this);
             _fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                             .Where(f => f.IsPublic || f.GetCustomAttributes<UdonSharp.UdonSyncedAttribute>().Any())
-                            .Where(f => f.DeclaringType == type || f.Name.StartsWith("__refl_const_intnl_udonType"))
+                            .Where(f => f.DeclaringType == type || f.Name.StartsWith("__refl_const_intnl_udonType") || f.Name.StartsWith("__refl_type"))
                             .ToArray();
 
             _obj = obj;

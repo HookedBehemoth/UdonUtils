@@ -1,5 +1,5 @@
 ﻿using System;
-using VRC.Udon.Common.Interfaces;
+using Il2CppVRC.Udon.Common.Interfaces;
 
 namespace UdonSharp
 {

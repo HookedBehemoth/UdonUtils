@@ -8,19 +8,19 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
 
         <AssemblySearchPaths>
-            $(AssemblySearchPaths);
-            $(VRChatPath)\Mods;
-            $(VRChatPath)\UserLibs;
-            $(VRChatPath)\MelonLoader;
-            $(VRChatPath)\MelonLoader\Managed;</AssemblySearchPaths>
+            {RawFileName};
+            $(VRChatPath)/MelonLoader/net6;
+            $(VRChatPath)/MelonLoader/Il2CppAssemblies;
+            $(VRChatPath)/Mods;
+            $(VRChatPath)/MelonLoader/Managed
+        </AssemblySearchPaths>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="System"/>
         <Reference Include="MelonLoader">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
@@ -38,7 +38,27 @@
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="UnhollowerBaseLib">
+        <Reference Include="Il2CppSystem.Core">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppSystem.Runtime">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2Cpp">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppInterop.Common">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppInterop.Runtime">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppInterop.HarmonySupport">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
@@ -47,19 +67,32 @@
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="VRCSDKBase">
+        <Reference Include="Il2CppVRCSDKBase">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="VRCSDK3">
+        <Reference Include="Il2CppVRCSDK3">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="VRC.Udon">
+        <Reference Include="Il2CppVRCCore-Standalone">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
-        <Reference Include="VRC.Udon.Common">
+        <Reference Include="Il2CppVRCCore-Editor">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppVRC.Udon">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Il2CppVRC.Udon.Common">
+            <Private>False</Private>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <!-- Game libraries -->
+        <Reference Include="Newtonsoft.Json">
             <Private>False</Private>
             <SpecificVersion>False</SpecificVersion>
         </Reference>
@@ -82,7 +115,7 @@
     </Target>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(VRChatPath)')">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VRChatPath)\Mods" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VRChatPath)/Mods" />
         <Message Text="Copied $(TargetFileName) to $(VRChatPath)\Mods" Importance="high" />
     </Target>
 </Project>

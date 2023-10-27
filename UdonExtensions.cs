@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using UnhollowerBaseLib;
-using VRC.Udon;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppVRC.Udon;
 using System;
 using System.Linq;
 

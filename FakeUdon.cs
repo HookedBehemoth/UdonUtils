@@ -15,16 +15,16 @@
  */
 
 using MelonLoader;
-using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using VRC.Udon;
-using VRC.Udon.Common;
-using VRC.Udon.Common.Interfaces;
+using Il2CppVRC.Udon;
+using Il2CppVRC.Udon.Common;
+using Il2CppVRC.Udon.Common.Interfaces;
 
 namespace FakeUdon
 {
@@ -98,7 +98,7 @@ namespace FakeUdon
             __instance._program = new IUdonProgram(program.Pointer);
 
             var variableTable = __instance.publicVariables.Cast<UdonVariableTable>();
-            foreach (var variableSymbol in variableTable._publicVariables.keys)
+            foreach (var variableSymbol in variableTable._publicVariables._keys)
             {
                 if (!symbolTable.HasAddressForSymbol(variableSymbol))
                 {
@@ -169,15 +169,15 @@ namespace FakeUdon
             if (type.IsArray)
             {
                 var baseType = type.GetElementType();
-                return UnhollowerRuntimeLib.Il2CppType.From((baseType.IsValueType ? typeof(Il2CppStructArray<>) : typeof(Il2CppReferenceArray<>)).MakeGenericType(baseType));
+                return Il2CppType.From((baseType.IsValueType ? typeof(Il2CppStructArray<>) : typeof(Il2CppReferenceArray<>)).MakeGenericType(baseType));
             }
             else if (type.BaseType == typeof(UdonSharp.UdonSharpBehaviour))
             {
-                return UnhollowerRuntimeLib.Il2CppType.Of<UdonBehaviour>();
+                return Il2CppType.Of<UdonBehaviour>();
             }
             else
             {
-                return UnhollowerRuntimeLib.Il2CppType.From(type);
+                return Il2CppType.From(type);
             }
         }
 
